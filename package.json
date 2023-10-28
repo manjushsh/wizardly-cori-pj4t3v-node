@@ -4,7 +4,8 @@
   "description": "An Express-based application skeleton",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js localhost 8080"
+    "start": "node app.js",
+    "start:dev": "nodemon app.js localhost 8080"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.438.0",
