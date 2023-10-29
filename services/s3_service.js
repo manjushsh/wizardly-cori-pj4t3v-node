@@ -12,13 +12,18 @@ const IPFS_GATEWAY_BASE_URL = "https://ipfs.filebase.io/ipfs/";
 
 let CID = null;
 
+const S3_CONFIG = {
+  AWS_BUCKET_NAME: process?.env?.FILEBASE_AWS_BUCKET_NAME,
+  AWS_ACCESS_KEY: process?.env?.FILEBASE_AWS_ACCESS_KEY || "",
+  AWS_SECRET_KEY: process?.env?.FILEBASE_AWS_SECRET_KEY || "",
+  AWS_REGION: process?.env?.FILEBASE_AWS_REGION || "",
+};
 const client = new S3Client({
   credentials: {
-    accessKeyId: process?.env?.FILEBASE_AWS_ACCESS_KEY || "",
-    secretAccessKey: process?.env?.FILEBASE_AWS_SECRET_KEY || "",
-    sessionToken: "SessionToken",
+    accessKeyId: S3_CONFIG.AWS_ACCESS_KEY,
+    secretAccessKey: S3_CONFIG.AWS_SECRET_KEY,
   },
-  region: process?.env?.AWS_REGION,
+  region: S3_CONFIG.AWS_REGION,
   endpoint: process?.env?.FILEBASE_ENDPOINT,
 });
 
@@ -28,7 +33,7 @@ const S3Service = {
     const fileName = `imggen-${formatedDate}.jpg`;
     const imageBuffer = await CommonService.createBufferFromBlob(blob);
     const pc = new PutObjectCommand({
-      Bucket: process?.env?.AWS_BUCKET_NAME,
+      Bucket: S3_CONFIG.AWS_BUCKET_NAME,
       Key: `hf_stable_diffussion2/${fileName}`, //  `${YEAR}/${MONTH}/log-${formatedDate}.json`,
       Body: imageBuffer,
       ContentType: "image/jpg",
@@ -42,7 +47,7 @@ const S3Service = {
   uploadPromptTextToS3: async (text, createdPrompt, filePath) => {
     const formatedDate = format(new Date(), "yyyy-MM-dd_HH:mm:ss");
     const pc = new PutObjectCommand({
-      Bucket: process?.env?.AWS_BUCKET_NAME,
+      Bucket: S3_CONFIG.AWS_BUCKET_NAME,
       Key: `prompts/prompt-${formatedDate}.txt`,
       Body: `User Prompt: ${text} \n
             Generated prompt: ${createdPrompt} \n
@@ -54,7 +59,7 @@ const S3Service = {
   uploadTextToS3: async (text, translated) => {
     const formatedDate = format(new Date(), "yyyy-MM-dd_HH:mm:ss");
     const pc = new PutObjectCommand({
-      Bucket: process?.env?.AWS_BUCKET_NAME,
+      Bucket: S3_CONFIG.AWS_BUCKET_NAME,
       Key: `translations/translation-${formatedDate}.txt`,
       Body: `Original: ${text}
             Translated: ${translated}`,
