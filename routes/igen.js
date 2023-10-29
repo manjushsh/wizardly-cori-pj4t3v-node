@@ -15,7 +15,7 @@ router.post("/img_gen_v1", async function (req, res, _) {
   if (req?.body.magicPrompt) {
     await inference.textGeneration({
       model: Constants.SD_PROMPTGEN,
-      inputs: input,
+      inputs: prompt,
     });
   }
   const responseSDXL1 = await inference.textToImage({
@@ -51,7 +51,7 @@ router.post("/img_gen_v1_5", async function (req, res, _) {
   if (req?.body.magicPrompt) {
     await inference.textGeneration({
       model: Constants.SD_PROMPTGEN,
-      inputs: input,
+      inputs: prompt,
     });
   }
   const responseFromSDXL15 = await inference.textToImage({
@@ -81,7 +81,7 @@ router.post("/img_gen_v1_5_ud", async function (req, res, _) {
   if (req?.body.magicPrompt) {
     await inference.textGeneration({
       model: Constants.SD_PROMPTGEN,
-      inputs: input,
+      inputs: prompt,
     });
   }
   const responseFromSDXL15 = await inference.textToImage({
@@ -111,7 +111,7 @@ router.post("/img_gen_v2", async function (req, res, _) {
   if (req?.body.magicPrompt) {
     await inference.textGeneration({
       model: Constants.SD_PROMPTGEN,
-      inputs: input,
+      inputs: prompt,
     });
   }
   const responseFromSDXL2 = await inference.textToImage({
