@@ -1,7 +1,10 @@
-const { HuggingFaceInferenceEmbeddings } = require("langchain/embeddings/hf");
+const { HuggingFaceInference } = require("@langchain/community/llms/hf");
 
-const hfEmbeddings = new HuggingFaceInferenceEmbeddings({
-  apiKey: process.env?.HF_ACCESS_TOKEN,
-});
+function getHfEmbeding(model) {
+  return new HuggingFaceInference({
+    model: "gpt2",
+    apiKey: process.env?.HF_ACCESS_TOKEN,
+  });
+}
 
-module.exports = hfEmbeddings;
+module.exports = { getHfEmbeding };
